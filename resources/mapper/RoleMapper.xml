@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.cloudserviceplatform.dao.RoleMapper">
+    <resultMap id="RoleResultMap" type="com.example.cloudserviceplatform.vo.Role">
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="description" property="description"/>
+        <result column="is_active" property="isActive"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO roles (role_name, role_code, description, is_active, created_at, updated_at)
+        VALUES (#{roleName}, #{roleCode}, #{description}, #{isActive}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="selectById" resultMap="RoleResultMap">
+        SELECT * FROM roles WHERE id = #{id}
+    </select>
+
+    <select id="selectByRoleCode" resultMap="RoleResultMap">
+        SELECT * FROM roles WHERE role_code = #{roleCode}
+    </select>
+
+    <select id="selectByRoleName" resultMap="RoleResultMap">
+        SELECT * FROM roles WHERE role_name = #{roleName}
+    </select>
+
+    <select id="selectAll" resultMap="RoleResultMap">
+        SELECT * FROM roles
+    </select>
+
+    <update id="update">
+        UPDATE roles 
+        SET role_name = #{roleName}, 
+            role_code = #{roleCode}, 
+            description = #{description}, 
+            is_active = #{isActive}, 
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM roles WHERE id = #{id}
+    </delete>
+
+    <select id="selectRolesByUserId" resultMap="RoleResultMap">
+        SELECT r.* 
+        FROM roles r
+        JOIN user_roles ur ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId}
+    </select>
+
+    <insert id="insertUserRole">
+        INSERT INTO user_roles (user_id, role_id)
+        VALUES (#{userId}, #{roleId})
+    </insert>
+
+    <delete id="deleteUserRole">
+        DELETE FROM user_roles 
+        WHERE user_id = #{userId} AND role_id = #{roleId}
+    </delete>
+</mapper>

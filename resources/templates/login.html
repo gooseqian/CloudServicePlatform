@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云服务制造平台 - 登录</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1><i class="fas fa-cloud"></i> 云服务制造平台</h1>
+            <p>智能制造资源与服务共享平台</p>
+        </div>
+        
+        <div class="login-form">
+            <h2>用户登录</h2>
+            
+            <div th:if="${param.error}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                用户名或密码错误，请重试！
+            </div>
+            
+            <div th:if="${param.logout}" class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                您已成功登出！
+            </div>
+            
+            <form id="loginForm" method="post" th:action="@{/api/auth/custom-login}">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i> 用户名/邮箱
+                    </label>
+                    <input type="text" id="username" name="username" required 
+                           placeholder="请输入用户名或邮箱">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> 密码
+                    </label>
+                    <input type="password" id="password" name="password" required 
+                           placeholder="请输入密码">
+                    <span class="toggle-password" onclick="togglePassword()">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkmark"></span>
+                        记住我
+                    </label>
+                    <a href="#" class="forgot-password">忘记密码？</a>
+                </div>
+                
+                <button type="submit" class="login-btn" id="loginButton">
+                    <i class="fas fa-sign-in-alt"></i> 用户登录
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>还没有账号？ <a th:href="@{/view/register}" class="register-link">立即注册</a></p>
+                <div class="user-type-switch">
+                    <button type="button" class="user-type-btn active" data-type="user" id="userLoginTab">普通用户登录</button>
+                    <button type="button" class="user-type-btn" data-type="admin" id="adminLoginTab">管理员登录</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-features">
+            <div class="feature">
+                <i class="fas fa-cogs"></i>
+                <h3>智能制造资源</h3>
+                <p>共享高端制造设备和技术资源</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-handshake"></i>
+                <h3>服务需求对接</h3>
+                <p>快速匹配制造需求与资源供给</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>数据智能分析</h3>
+                <p>基于大数据优化制造资源配置</p>
+            </div>
+        </div>
+    </div>
+    
+    <script th:src="@{/js/login.js}"></script>
+    <script>
+        // 用户类型切换逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            const userLoginTab = document.getElementById('userLoginTab');
+            const adminLoginTab = document.getElementById('adminLoginTab');
+            const userTypeInput = document.getElementById('userTypeInput');
+            const loginButton = document.getElementById('loginButton');
+            const loginForm = document.getElementById('loginForm');
+            const loginHeader = document.querySelector('.login-header h1');
+            const featureSection = document.querySelector('.login-features');
+            
+            // 用户登录标签点击
+            userLoginTab.addEventListener('click', function() {
+                userLoginTab.classList.add('active');
+                adminLoginTab.classList.remove('active');
+                userTypeInput.value = 'user';
+                loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> 用户登录';
+                loginHeader.innerHTML = '<i class="fas fa-cloud"></i> 云服务制造平台';
+                featureSection.style.display = 'block';
+            });
+            
+            // 管理员登录标签点击
+            adminLoginTab.addEventListener('click', function() {
+                adminLoginTab.classList.add('active');
+                userLoginTab.classList.remove('active');
+                userTypeInput.value = 'admin';
+                loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> 管理员登录';
+                loginHeader.innerHTML = '<i class="fas fa-shield-alt"></i> 管理员后台';
+                featureSection.style.display = 'none';
+            });
+            
+            // 初始化时添加样式
+            const style = document.createElement('style');
+            style.textContent = `
+                .user-type-switch {
+                    display: flex;
+                    margin-top: 20px;
+                    border-radius: 25px;
+                    background: #f0f0f0;
+                    overflow: hidden;
+                }
+                
+                .user-type-btn {
+                    flex: 1;
+                    padding: 10px;
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-weight: 500;
+                }
+                
+                .user-type-btn.active {
+                    background: #4c6ef5;
+                    color: white;
+                }
+                
+                .user-type-btn:hover:not(.active) {
+                    background: #e0e0e0;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

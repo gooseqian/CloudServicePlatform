@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.cloudserviceplatform.dao.UserMapper">
+    <resultMap id="UserResultMap" type="com.example.cloudserviceplatform.vo.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="user_type" property="userType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result column="real_name" property="realName"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="is_active" property="isActive"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password, email, user_type, real_name, 
+                          phone_number, avatar_url, is_active, created_at, updated_at)
+        VALUES (#{username}, #{password}, #{email}, #{userType, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{realName},
+                #{phoneNumber}, #{avatarUrl}, #{isActive}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="selectById" resultMap="UserResultMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <select id="selectByUsername" resultMap="UserResultMap">
+        SELECT * FROM users WHERE username = #{username}
+    </select>
+
+    <select id="selectByEmail" resultMap="UserResultMap">
+        SELECT * FROM users WHERE email = #{email}
+    </select>
+
+    <update id="update">
+        UPDATE users 
+        SET username = #{username}, 
+            password = #{password}, 
+            email = #{email}, 
+            user_type = #{userType, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, 
+            real_name = #{realName}, 
+            phone_number = #{phoneNumber}, 
+            avatar_url = #{avatarUrl}, 
+            is_active = #{isActive}, 
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectAll" resultMap="UserResultMap">
+        SELECT * FROM users
+    </select>
+
+    <select id="countByUsername" resultType="int">
+        SELECT COUNT(*) FROM users WHERE username = #{username}
+    </select>
+
+    <select id="countByEmail" resultType="int">
+        SELECT COUNT(*) FROM users WHERE email = #{email}
+    </select>
+
+    <update id="toggleActive">
+        UPDATE users 
+        SET is_active = NOT is_active,
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+</mapper>

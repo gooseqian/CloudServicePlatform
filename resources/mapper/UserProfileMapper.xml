@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.cloudserviceplatform.dao.UserProfileMapper">
+    <resultMap id="UserProfileResultMap" type="com.example.cloudserviceplatform.vo.UserProfile">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_role" property="userRole"/>
+        <result column="id_card_no" property="idCardNo"/>
+        <result column="company_name" property="companyName"/>
+        <result column="company_address" property="companyAddress"/>
+        <result column="business_license_no" property="businessLicenseNo"/>
+        <result column="credit_level" property="creditLevel"/>
+        <result column="total_transactions" property="totalTransactions"/>
+        <result column="success_rate" property="successRate"/>
+        <result column="avg_response_time" property="avgResponseTime"/>
+        <result column="specialization" property="specialization"/>
+        <result column="equipment_capability" property="equipmentCapability"/>
+        <result column="service_scope" property="serviceScope"/>
+        <result column="certifications" property="certifications"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_profiles (user_id, user_role, id_card_no, company_name, 
+                                 company_address, business_license_no, credit_level,
+                                 total_transactions, success_rate, avg_response_time,
+                                 specialization, equipment_capability, service_scope,
+                                 certifications, created_at, updated_at)
+        VALUES (#{userId}, #{userRole}, #{idCardNo}, #{companyName}, 
+                #{companyAddress}, #{businessLicenseNo}, #{creditLevel},
+                #{totalTransactions}, #{successRate}, #{avgResponseTime},
+                #{specialization}, #{equipmentCapability}, #{serviceScope},
+                #{certifications}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="selectById" resultMap="UserProfileResultMap">
+        SELECT * FROM user_profiles WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserId" resultMap="UserProfileResultMap">
+        SELECT * FROM user_profiles WHERE user_id = #{userId}
+    </select>
+
+    <update id="update">
+        UPDATE user_profiles 
+        SET user_id = #{userId}, 
+            user_role = #{userRole}, 
+            id_card_no = #{idCardNo}, 
+            company_name = #{companyName}, 
+            company_address = #{companyAddress}, 
+            business_license_no = #{businessLicenseNo}, 
+            credit_level = #{creditLevel}, 
+            total_transactions = #{totalTransactions}, 
+            success_rate = #{successRate}, 
+            avg_response_time = #{avgResponseTime}, 
+            specialization = #{specialization}, 
+            equipment_capability = #{equipmentCapability}, 
+            service_scope = #{serviceScope}, 
+            certifications = #{certifications}, 
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM user_profiles WHERE id = #{id}
+    </delete>
+</mapper>

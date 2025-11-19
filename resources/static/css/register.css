@@ -1,0 +1,601 @@
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.register-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 1400px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 700px;
+}
+
+/* 注册头部样式 */
+.register-header {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.3s ease;
+}
+
+.back-btn:hover {
+    opacity: 0.8;
+}
+
+.register-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.register-header h1 i {
+    margin-right: 15px;
+    font-size: 2.8rem;
+}
+
+.register-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* 注册表单样式 */
+.register-form {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+/* 步骤指示器样式 */
+.form-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.form-steps::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e1e5e9;
+    z-index: 1;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e1e5e9;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    box-shadow: 0 4px 10px rgba(79, 172, 254, 0.3);
+}
+
+.step span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #666;
+}
+
+.step.active span {
+    color: #4facfe;
+}
+
+/* 表单步骤样式 */
+.form-step {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.form-step h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* 表单组样式 */
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.form-group label i {
+    margin-right: 8px;
+    color: #4facfe;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #4facfe;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+}
+
+.form-group input.error {
+    border-color: #ff4444;
+    background: #fff5f5;
+}
+
+.form-group input.success {
+    border-color: #00c851;
+    background: #f8fff8;
+}
+
+/* 输入反馈样式 */
+.input-feedback {
+    font-size: 0.85rem;
+    margin-top: 5px;
+    min-height: 20px;
+}
+
+.input-feedback.error {
+    color: #ff4444;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.input-feedback.success {
+    color: #00c851;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* 密码强度指示器 */
+.password-strength {
+    margin-top: 10px;
+}
+
+.strength-bar {
+    height: 4px;
+    background: #e1e5e9;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.strength-level {
+    height: 100%;
+    width: 0%;
+    background: #ff4444;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.strength-level.weak {
+    width: 33%;
+    background: #ff4444;
+}
+
+.strength-level.medium {
+    width: 66%;
+    background: #ffbb33;
+}
+
+.strength-level.strong {
+    width: 100%;
+    background: #00c851;
+}
+
+.strength-text {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* 业务类型选择 */
+.business-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.business-type {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.business-type:hover {
+    border-color: #4facfe;
+    background: white;
+}
+
+.business-type input:checked + .checkmark {
+    background: #4facfe;
+    border-color: #4facfe;
+}
+
+.business-type input:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+}
+
+.business-type input {
+    display: none;
+}
+
+.business-type .checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.business-type i {
+    margin-right: 8px;
+    color: #4facfe;
+    font-size: 1.1rem;
+}
+
+.business-type span {
+    font-weight: 500;
+    color: #555;
+}
+
+/* 表单操作按钮 */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.btn-prev, .btn-next, .btn-submit {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-prev {
+    background: #f8f9fa;
+    color: #666;
+    border: 2px solid #e1e5e9;
+}
+
+.btn-prev:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.btn-next, .btn-submit {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.btn-next:hover, .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+}
+
+.btn-next:active, .btn-submit:active {
+    transform: translateY(0);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 信息汇总样式 */
+.summary-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.info-item strong {
+    min-width: 100px;
+    color: #555;
+}
+
+.info-item span {
+    color: #333;
+    font-weight: 500;
+}
+
+/* 条款同意样式 */
+.terms-agreement {
+    margin-bottom: 20px;
+}
+
+.terms-agreement .checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.terms-agreement input {
+    display: none;
+}
+
+.terms-agreement .checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 8px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.terms-agreement input:checked + .checkmark {
+    background: #4facfe;
+    border-color: #4facfe;
+}
+
+.terms-agreement input:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+}
+
+.terms-link {
+    color: #4facfe;
+    text-decoration: none;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
+
+/* 特性展示区域 */
+.register-features {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+}
+
+.feature {
+    text-align: center;
+}
+
+.feature i {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.feature h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.feature p {
+    opacity: 0.8;
+    line-height: 1.5;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .register-container {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+    
+    .register-features {
+        display: none;
+    }
+    
+    .business-types {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .register-container {
+        border-radius: 15px;
+        min-height: auto;
+    }
+    
+    .register-header {
+        padding: 30px 20px;
+    }
+    
+    .register-header h1 {
+        font-size: 2rem;
+    }
+    
+    .register-form {
+        padding: 30px 20px;
+    }
+    
+    .form-steps {
+        margin-bottom: 30px;
+    }
+    
+    .step span {
+        font-size: 0.8rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-prev, .btn-next, .btn-submit {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .register-container {
+        border-radius: 10px;
+    }
+    
+    .register-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .register-form {
+        padding: 20px 15px;
+    }
+    
+    .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云服务制造平台 - 用户注册</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <a th:href="@{/login}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回登录
+            </a>
+            <h1><i class="fas fa-user-plus"></i> 用户注册</h1>
+            <p>创建您的云服务制造平台账户</p>
+        </div>
+        
+        <div class="register-form">
+            <div class="form-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <span>基本信息</span>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <span>详细资料</span>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <span>完成注册</span>
+                </div>
+            </div>
+            
+            <form id="registerForm" method="post" th:action="@{/api/auth/register}">
+                <!-- 第一步：基本信息 -->
+                <div class="form-step active" data-step="1">
+                    <h3>基本信息</h3>
+                    
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fas fa-user"></i> 用户名 *
+                        </label>
+                        <input type="text" id="username" name="username" required 
+                               placeholder="请输入3-20位字母、数字或下划线" 
+                               minlength="3" maxlength="20">
+                        <div class="input-feedback"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i> 邮箱地址 *
+                        </label>
+                        <input type="email" id="email" name="email" required 
+                               placeholder="请输入有效的邮箱地址">
+                        <div class="input-feedback"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fas fa-lock"></i> 密码 *
+                        </label>
+                        <input type="password" id="password" name="password" required 
+                               placeholder="请输入至少6位密码" minlength="6">
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-level"></div>
+                            </div>
+                            <span class="strength-text">密码强度</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">
+                            <i class="fas fa-lock"></i> 确认密码 *
+                        </label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required 
+                               placeholder="请再次输入密码">
+                        <div class="input-feedback"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-next" onclick="nextStep()">
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 第二步：详细资料 -->
+                <div class="form-step" data-step="2">
+                    <h3>详细资料</h3>
+                    
+                    <div class="form-group">
+                        <label for="realName">
+                            <i class="fas fa-id-card"></i> 真实姓名
+                        </label>
+                        <input type="text" id="realName" name="realName" 
+                               placeholder="请输入真实姓名（选填）">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phoneNumber">
+                            <i class="fas fa-phone"></i> 手机号码
+                        </label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" 
+                               placeholder="请输入手机号码（选填）">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">
+                            <i class="fas fa-building"></i> 公司/组织
+                        </label>
+                        <input type="text" id="company" name="company" 
+                               placeholder="请输入公司或组织名称（选填）">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="idCard">
+                            <i class="fas fa-id-card-alt"></i> 身份证号
+                        </label>
+                        <input type="text" id="idCard" name="idCard" 
+                               placeholder="请输入身份证号码（选填）">
+                    </div>
+                    
+                    
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-prev" onclick="prevStep()">
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button type="button" class="btn-next" onclick="nextStep()">
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 第三步：完成注册 -->
+                <div class="form-step" data-step="3">
+                    <h3>确认注册信息</h3>
+                    
+                    <div class="summary-info">
+                        <div class="info-item">
+                            <strong>用户名：</strong>
+                            <span id="summary-username"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>邮箱：</strong>
+                            <span id="summary-email"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>真实姓名：</strong>
+                            <span id="summary-realName"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>手机号码：</strong>
+                            <span id="summary-phoneNumber"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>公司/组织：</strong>
+                            <span id="summary-company"></span>
+                        </div>
+
+                    </div>
+                    
+                    <div class="terms-agreement">
+                        <label class="checkbox">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span class="checkmark"></span>
+                            我已阅读并同意 
+                            <a href="#" class="terms-link">《用户服务协议》</a> 
+                            和 
+                            <a href="#" class="terms-link">《隐私政策》</a>
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-prev" onclick="prevStep()">
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-user-plus"></i> 完成注册
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="register-features">
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h3>安全可靠</h3>
+                <p>采用银行级加密技术保护您的数据安全</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-rocket"></i>
+                <h3>快速对接</h3>
+                <p>智能匹配制造资源与服务需求</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-headset"></i>
+                <h3>专业支持</h3>
+                <p>7×24小时专业技术支持服务</p>
+            </div>
+        </div>
+    </div>
+    
+    <script th:src="@{/js/register.js}"></script>
+</body>
+</html>
